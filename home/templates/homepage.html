@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Student</title>
+</head>
+<body>
+    <h1>ATHis is a homepage</h1>
+    <!-- <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Submit</button>
+    </form> -->
+    <!-- <a href="/view/">View Students</a> -->
+
+    <table border="1">
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>price</th>
+            <th>image</th>
+        </tr>
+        {% for data in productData %}
+        <tr>
+            <td>{{ data.productId }}</td>
+            <td>{{ data.productName }}</td>
+            <td>{{ data.price }}</td>
+            <td>{{ data.productImage }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
