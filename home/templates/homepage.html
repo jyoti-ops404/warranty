@@ -1,31 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Student</title>
-</head>
-<body>
-    <h1>ATHis is a homepage</h1>
-    <!-- <form method="POST">
-        {% csrf_token %}
-        <button type="submit">Submit</button>
-    </form> -->
-    <!-- <a href="/view/">View Students</a> -->
+{% extends 'base.html' %}
+{% block title %}Eastman - Unlimited Energy{% endblock%} 
+{% block content %}
+<h1>ATHis is a homepage</h1>
 
-    <table border="1">
-        <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>price</th>
-            <th>image</th>
-        </tr>
-        {% for data in productData %}
-        <tr>
-            <td>{{ data.productId }}</td>
-            <td>{{ data.productName }}</td>
-            <td>{{ data.price }}</td>
-            <td>{{ data.productImage }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</body>
-</html>
+<table border="1">
+  <tr>
+    <th>id</th>
+    <th>name</th>
+    <th>price</th>
+    <th>image</th>
+  </tr>
+  {% for data in productData %}
+  <tr>
+    <td>{{ data.productId }}</td>
+    <td>{{ data.productName }}</td>
+    <td>{{ data.price }}</td>
+    <td>{{ data.productImage }} <img src="media/{{ data.productImage }}" alt="Product Image" /></td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
