@@ -10,46 +10,99 @@
     {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
   </head>
   <body>
-    <div class="">
-      <nav
-        class="navbar glassy-navbar navbar-light sticky-top navbar-expand-md bg-faded justify-content-center shadow-sm"
-      >
-        <div class="container-fluid">
-          <a href="/" class="navbar-brand fs-3 d-flex w-25 me-auto align-items-baseline">Eastman</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapsingNavbar3"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="navbar-collapse collapse w-50" id="collapsingNavbar3">
-            <ul class="navbar-nav w-100 justify-content-center">
-              <li class="nav-item">
-                <a class="nav-link text-black" href="#">Home</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link text-black" href="#">About Us</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link text-black" href="#">Contact Us</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link text-black" href="#">Customer Warrenty</a>
-              </li>
-            </ul>
-            <ul class="nav navbar-nav ms-auto w-25 justify-content-end">
-              <li class="nav-item">
-                <button class="btn btn-outline-dark">Admin Login</button>
-              </li>
-            </ul>
+
+    <!-- Navbar -->
+    <nav
+      class="navbar glassy-navbar navbar-light sticky-top navbar-expand-md bg-faded justify-content-center shadow-sm w-100"
+    >
+      <div class="container-fluid w-100">
+        <a href="/" class=" d-flex w-25 me-auto align-items-baseline">
+          <img src="{% static 'img/logo.png' %}" style="width:140px;" alt="Logo" />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapsingNavbar3"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse w-75" id="collapsingNavbar3">
+          <ul class="navbar-nav w-75 justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link text-black" href="/">Home</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link text-black" href="/about">About Us</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link text-black" href="#">Contact Us</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link text-black" href="/customer-warrenty">Customer Warrenty</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav ms-auto justify-content-end nav-admin-login">
+            <li class="nav-item">
+              <a href="/admin"><button class="btn btn-dark">Admin Login</button></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <div>
+    {% block content %} {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full bg-black text-white">
+      <div class="container pt-5 pb-3">
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <img src="{% static 'img/logo.png' %}" style="width:250px" alt="Logo" />
+            <!-- <h6>Pulchowk-2, Lalitpur</h6>
+            <h6>98457845</h6> -->
+            <div class="d-flex flex-row">
+
+            </div>
+          </div>
+          <!-- Single Widget-->
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="single-footer-widget section_padding_0_130">
+              <!-- Widget Title-->
+              <h5 class="widget-title">About</h5>
+              <!-- Footer Menu-->
+              <div class="footer_menu">
+                <ul>
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Corporate Sale</a></li>
+                  <li><a href="#">Terms &amp; Policy</a></li>
+                  <li><a href="#">Community</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Single Widget-->
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="single-footer-widget section_padding_0_130">
+              <!-- Widget Title-->
+              <h5 class="widget-title">Support</h5>
+              <!-- Footer Menu-->
+              <div class="footer_menu">
+                <ul>
+                  <li><a href="#">Help</a></li>
+                  <li><a href="#">Support</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Term &amp; Conditions</a></li>
+                  <li><a href="#">Help &amp; Support</a></li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
-      </nav>
-      <div class="container-fluid">
-      {% block content %} {% endblock %}
       </div>
-    </div>
+    </footer>
   </body>
 </html>

@@ -1,14 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>About us</title>
-</head>
-<body>
-    <h1>Customer warrenty</h1>
-    <!-- <form method="POST">
-        {% csrf_token %}
-        <button type="submit">Submit</button>
-    </form> -->
-    <!-- <a href="/view/">View Students</a> -->
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Customer Product Warrenty | Eastman{% endblock%} 
+
+{% block content %}
+
+<div class="container warrenty-form p-5">
+    <h3>Claim your Product Warrenty Here</h3>
+    <form class="mt-4">
+        <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" required>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="number" class="form-control" maxlength="10" required>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label class="form-label">Email (optional)</label>
+                <input type="email" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label class="form-label">Model</label>
+                <input type="text" class="form-control" required>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label class="form-label">Date of Sales</label>
+                <input type="date" class="form-control" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Serial Number</label>
+            <input type="text" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Vendor</label>
+            <input type="text" class="form-control" required>
+        </div>
+        <button class="btn btn-dark px-5 mt-3">Submit</button>
+    </form>
+</div>
+
+{% endblock %}

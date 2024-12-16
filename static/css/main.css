@@ -2,12 +2,77 @@ body{
     font-family: "Poppins", sans-serif!important;
 }
 
+/* Navbar */
 .glassy-navbar {
     /* From https://css.glass */
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.nav-item {
+    background-color: rgba(255, 255, 255, 0.9);
+    margin: 3px;
+    border-radius: 10px;
+}
+.nav-item:hover {
+    background-color: #F3F4F6;
+}
+.nav-admin-login {
+    width:25%;
+}
+
+
+/* Carousel */
+.carousel-image {
+    aspect-ratio:3/1;
+    border-radius:25px;
+}
+
+/* Product Card */
+.product-card {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+.product-card:hover {
+    background-color: rgb(243 244 246);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+.product-card:hover>.product-card-image>img{
+    transform: scale(1.1);
+}
+.product-card-image {
+    width: 100%;
+    overflow:hidden;
+    border-radius: 10px;
+}
+.product-card-image>img{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform .2s;
+}
+
+/* Warrenty form */
+.warrenty-form {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    margin-top: 4rem; 
+    margin-bottom: 4rem;
+    
+}
+
+@media only screen and (max-width: 768px) {
+    .nav-item {
+        border-radius: 3px;
+        padding-left: 10px;
+    }
+    .nav-admin-login {
+        width: 100%;
+    }
+    .carousel-image {
+        aspect-ratio: 16 / 9;
+    }
 }
