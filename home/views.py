@@ -23,3 +23,9 @@ def homepage(request):
 
 def about_us(request):
     return render(request, 'aboutus.html')
+
+def customer_warrenty(request):
+    return render(request, 'customer-warrenty.html')
+
+def products(request):
+    return render(request, 'products.html')
