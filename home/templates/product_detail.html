@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ product.name }}</title>
+</head>
+<body>
+    <h1>{{ product.name }}</h1>
+    
+    <!-- Display Product Image -->
+    <div>
+        <img src="/media/{{ product.productImage }}" alt="{{ product.name }}" style="max-width: 40%; height: auto;">
+    </div>
+
+    <!-- Display Product Details -->
+    <p>Description: {{ product.description }}</p>
+    <p>Price: Rs. {{ product.price }}</p>
+
+    <!-- Go to Homepage Link -->
+    <div style="margin-top: 20px;">
+        <a href="/" style="text-decoration: none; color: blue; font-weight: bold;">Go to Homepage</a>
+    </div>
+</body>
+</html>

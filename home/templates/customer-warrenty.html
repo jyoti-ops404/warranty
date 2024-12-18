@@ -1,45 +1,49 @@
 {% extends 'base.html' %}
-{% block title %}Customer Product Warrenty | Eastman{% endblock%} 
+{% block title %}Customer Product Warranty | Eastman{% endblock %}
 
 {% block content %}
-
-<div class="container warrenty-form p-5">
-    <h3>Claim your Product Warrenty Here</h3>
-    <form class="mt-4">
+<div class="container warranty-form p-5">
+    <h3>Claim Your Product Warranty Here</h3>
+    <form class="mt-4" method="post">
+        {% csrf_token %}
         <div class="mb-3">
             <label class="form-label">Full Name</label>
-            <input type="text" class="form-control" required>
+            <input type="text" name="full_name" class="form-control" required>
         </div>
         <div class="row">
             <div class="mb-3 col-md-6">
                 <label class="form-label">Phone</label>
-                <input type="number" class="form-control" maxlength="10" required>
+                <input type="number" name="phone" class="form-control" maxlength="10" required>
             </div>
             <div class="mb-3 col-md-6">
                 <label class="form-label">Email (optional)</label>
-                <input type="email" class="form-control">
+                <input type="email" name="email" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="mb-3 col-md-6">
                 <label class="form-label">Model</label>
-                <input type="text" class="form-control" required>
+                <input type="text" name="model" class="form-control" required>
             </div>
             <div class="mb-3 col-md-6">
                 <label class="form-label">Date of Sales</label>
-                <input type="date" class="form-control" required>
+                <input type="date" name="date_of_sale" class="form-control" required>
             </div>
         </div>
         <div class="mb-3">
             <label class="form-label">Serial Number</label>
-            <input type="text" class="form-control" required>
+            <input type="text" name="serial_number" class="form-control" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Vendor</label>
-            <input type="text" class="form-control" required>
+            <select name="vendor" class="form-control" required>
+                <option value="" selected>Select a Vendor</option>  <!-- Default option -->
+                {% for vendor in vendors %}
+                    <option value="{{ vendor.id }}">{{ vendor.name }}</option>
+                {% endfor %}
+            </select>
         </div>
-        <button class="btn btn-dark px-5 mt-3">Submit</button>
+        <button type="submit" class="btn btn-dark px-5 mt-3">Submit</button>
     </form>
 </div>
-
 {% endblock %}
