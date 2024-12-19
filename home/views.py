@@ -28,7 +28,7 @@ def about_us(request):
     return render(request, 'aboutus.html')
 
 #def customer_warrenty(request):
-    return render(request, 'customer-warrenty.html')
+    # return render(request, 'customer-warrenty.html')
 
 def products(request):
     return render(request, 'products.html')
@@ -37,7 +37,6 @@ def product_detail(request, productId):
     product = get_object_or_404(Product, id=productId)  # Retrieve the product by ID or return a 404
     return render(request, 'product_detail.html', {'product': product})
 
-@login_required
 def customer_warrenty(request):
     if request.method == 'POST':
         form = WarrantyForm(request.POST)
@@ -51,11 +50,11 @@ def customer_warrenty(request):
     #return render(request, 'customer-warrenty.html', {'form':form})
     #return render(request, 'customer-warrenty.html', {'vendors': Vendor})
 
-@login_required
-def warranty_list(request):
-    if request.user.is_superuser:  # Admin can see all warranties
-        warranties = Warranty.objects.all()
-    else:  # Vendors can only see their associated warranties
-        vendor = Vendor.objects.filter(user=request.user).first()
-        warranties = Warranty.objects.filter(vendor=vendor)
-    return render(request, 'warranty_list.html', {'warranties': warranties})
+# @login_required
+# def warranty_list(request):
+#     if request.user.is_superuser:  # Admin can see all warranties
+#         warranties = Warranty.objects.all()
+#     else:  # Vendors can only see their associated warranties
+#         vendor = Vendor.objects.filter(user=request.user).first()
+#         warranties = Warranty.objects.filter(vendor=vendor)
+#     return render(request, 'warranty_list.html', {'warranties': warranties})

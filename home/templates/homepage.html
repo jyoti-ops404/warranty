@@ -56,15 +56,13 @@
 
     {% for data in productData %}
     <div class="col-6 col-md-6 col-lg-4 col-xl-3 d-flex align-items-stretch">
-      <div class="product-card p-4">
-        <a href="{% url 'product_detail' data.id %}" style="text-decoration: none; color: inherit;">
+      <a class="product-card p-4" href="{% url 'product_detail' data.id %}" style="text-decoration: none; color: inherit;">
           <div class="product-card-image">
             <img src="/media/{{ data.productImage }}" alt="Product" />
           </div>
           <h6 class="mt-3">{{ data.productName }}</h6>
           <p class="mt-3 fw-bold">Rs. {{ data.price }}</p>
-        </a>
-      </div>
+      </a>
     </div>
     {% endfor %}
 
