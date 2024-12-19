@@ -1,9 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}Customer Product Warranty | Eastman{% endblock %}
 
+
+
+
 {% block content %}
 <div class="container warranty-form p-5">
     <h3>Claim Your Product Warranty Here</h3>
+
+       <!-- Display Success/Error Messages -->
+       {% if messages %}
+       <div>
+           {% for message in messages %}
+           <div class="alert alert-{{ message.tags }}" role="alert">
+               {{ message }}
+           </div>
+           {% endfor %}
+       </div>
+       {% endif %}
+       
     <form class="mt-4" method="post">
         {% csrf_token %}
         <div class="mb-3">

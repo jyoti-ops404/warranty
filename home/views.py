@@ -3,6 +3,7 @@ from .models import Product
 from django.contrib.auth.decorators import login_required
 from .models import Warranty, Vendor
 from .forms import WarrantyForm
+from django.contrib import messages
 # Create your views here.
 
 # View for the /add page
@@ -42,7 +43,10 @@ def customer_warrenty(request):
         form = WarrantyForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('warranty_list.html')  # Redirect to the list page
+            messages.success(request, "Form submitted successfully!")
+            return redirect('customer_warrenty')  
+        else:
+            messages.error(request, "There was an error in your submission. Please check the form and try again.")
     else:
         form = WarrantyForm()
     vendors = Vendor.objects.all()  # Fetch vendors from the database
@@ -50,11 +54,11 @@ def customer_warrenty(request):
     #return render(request, 'customer-warrenty.html', {'form':form})
     #return render(request, 'customer-warrenty.html', {'vendors': Vendor})
 
-# @login_required
-# def warranty_list(request):
-#     if request.user.is_superuser:  # Admin can see all warranties
-#         warranties = Warranty.objects.all()
-#     else:  # Vendors can only see their associated warranties
-#         vendor = Vendor.objects.filter(user=request.user).first()
-#         warranties = Warranty.objects.filter(vendor=vendor)
-#     return render(request, 'warranty_list.html', {'warranties': warranties})
+
+#def warranty_list(request):
+ #    if request.user.is_superuser:  # Admin can see all warranties
+   #      warranties = Warranty.objects.all()
+   #  else:  # Vendors can only see their associated warranties
+   #      vendor = Vendor.objects.filter(user=request.user).first()
+    #     warranties = Warranty.objects.filter(vendor=vendor)
+  #   return render(request, 'warranty_list.html', {'warranties': warranties})
