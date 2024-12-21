@@ -2,8 +2,6 @@
 {% load static %}
 {% block title %}Eastman - Unlimited Energy{% endblock%} 
 {% block content %}
-<div class="container mt-3">
-
 
   <!-- Carousel -->
   <div id="carouselExampleIndicators" class="carousel slide carousel-fade">
@@ -29,26 +27,7 @@
   </button> -->
   </div>
 
-
-  <!-- Featured Products -->
-  <!-- <section style="margin-top: 4rem;">
-    <h1>Best Sellers</h1>
-    <div class="row g-3">
-
-      {% for data in productData %}
-      <div class="col-6 col-md-6 col-lg-4 col-xl-3 d-flex align-items-stretch">
-        <div class="product-card p-4">
-          <div class="product-card-image">
-            <img src="media/{{ data.productImage }}" alt="Product" />
-          </div>
-          <h6 class="mt-3">{{ data.productName }}</h6>
-          <p class="mt-3 fw-bold">Rs. {{ data.price }}</p>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </section> -->
-
+  <div class="container mt-3">
   <!-- Featured Products -->
 <section style="margin-top: 4rem;">
   <h1>Best Sellers</h1>
@@ -76,21 +55,21 @@
     <div class="col-lg-6 d-flex flex-column justify-content-center align-items-center">
       <img src="{% static 'img/eastman-20-years-warrenty.jpg' %}" style="width:60%;border-radius:10px;" alt="Image" />
     </div>
-    <div class="col-lg-6 d-flex flex-column justify-content-center">
+    <div class="col-lg-6 d-flex flex-column justify-content-center mt-2">
       <h4>Power That Lasts a Lifetime - Eastman 250Ah Immortal Battery</h4>
       <!-- <h6>Fueled by Technology, Backed by Science</h6> -->
       <p>The Eastman Immortal Battery delivers a powerful 250Ah capacity with exceptional durability and performance. Backed by an impressive up to 20-year warranty, it’s the perfect choice for long-lasting reliability. Designed for maximum efficiency, it stands out as the 1st choice of the wise Indian, ensuring value and trust.</p>
-      <button class="btn btn-dark w-25">Discover More</button>
+      <button class="btn btn-dark" style="width: fit-content">Discover More</button>
     </div>
   </section>
 
-  <section class="row" style="margin-top: 6rem;">
+  <section class="row mt-5">
     <div class="col-lg-6 d-flex flex-column justify-content-center">
       <h4>Eastman Tubular E-Rickshaw Battery</h4>
       <p>Our Eastman Tubular E-Rickshaw Battery offers reliable performance at an affordable cost with low maintenance and eco-friendly design. Available in 6 to 18-month warranties, it ensures minimal water topping and the lowest cost per kilometer, maximizing savings for customers.</p>
-      <button class="btn btn-dark w-25">Discover More</button>
+      <button class="btn btn-dark" style="width: fit-content;">Discover More</button>
     </div>
-    <div class="col-lg-6 d-flex flex-column justify-content-center align-items-center">
+    <div class="col-lg-6 d-flex flex-column justify-content-center align-items-center mt-2">
       <img src="{% static 'img/e-rickshaw.jpg' %}" style="width:70%;border-radius:10px;" alt="Image" />
     </div>
   </section>

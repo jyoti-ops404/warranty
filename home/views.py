@@ -28,11 +28,15 @@ def homepage(request):
 def about_us(request):
     return render(request, 'aboutus.html')
 
+def contact_us(request):
+    return render(request, 'contact.html')
+
 #def customer_warrenty(request):
     # return render(request, 'customer-warrenty.html')
 
 def products(request):
-    return render(request, 'products.html')
+    productData = Product.objects.all()
+    return render(request, 'products.html', {'productData': productData})
 
 def product_detail(request, productId):
     product = get_object_or_404(Product, id=productId)  # Retrieve the product by ID or return a 404
