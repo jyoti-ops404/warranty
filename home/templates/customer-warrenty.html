@@ -58,7 +58,58 @@
                 {% endfor %}
             </select>
         </div>
-        <button type="submit" class="btn btn-dark px-5 mt-3">Submit</button>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-dark px-5 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="previewForm()">
+        Submit
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Claim Product Warranty</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Full Name:</strong> <span id="previewFullName"></span></p>
+                <p><strong>Phone:</strong> <span id="previewPhone"></span></p>
+                <p><strong>Email:</strong> <span id="previewEmail"></span></p>
+                <p><strong>Model:</strong> <span id="previewModel"></span></p>
+                <p><strong>Date of Sale:</strong> <span id="previewDate"></span></p>
+                <p><strong>Serial Number:</strong> <span id="previewSerial"></span></p>
+                <p><strong>Vendor:</strong> <span id="previewVendor"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Edit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </div>
+        </div>
+        </div>
     </form>
 </div>
+
+<script>
+    function previewForm() {
+        // Fetch form values
+        const fullName = document.querySelector('input[name="full_name"]').value;
+        const phone = document.querySelector('input[name="phone"]').value;
+        const email = document.querySelector('input[name="email"]').value;
+        const model = document.querySelector('input[name="model"]').value;
+        const dateOfSale = document.querySelector('input[name="date_of_sale"]').value;
+        const serialNumber = document.querySelector('input[name="serial_number"]').value;
+        const vendorSelect = document.querySelector('select[name="vendor"]');
+        const vendor = vendorSelect.options[vendorSelect.selectedIndex].text;
+
+        // Populate modal
+        document.getElementById('previewFullName').textContent = fullName;
+        document.getElementById('previewPhone').textContent = phone;
+        document.getElementById('previewEmail').textContent = email || 'N/A';
+        document.getElementById('previewModel').textContent = model;
+        document.getElementById('previewDate').textContent = dateOfSale;
+        document.getElementById('previewSerial').textContent = serialNumber;
+        document.getElementById('previewVendor').textContent = vendor;
+    }
+</script>
 {% endblock %}
