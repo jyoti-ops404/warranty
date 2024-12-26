@@ -21,7 +21,7 @@ class Vendor(models.Model):
 class Warranty(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name='warranties')
     full_name = models.CharField(max_length=255)
-    email = models.EmailField()
+    email = models.EmailField(blank=True, null=True)
     phone = models.CharField(max_length=15)
     model = models.CharField(max_length=255)
     date_of_sale = models.DateField()
@@ -29,3 +29,11 @@ class Warranty(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.model}"
+    
+class ContactUs(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+
+    def __str__(self):
+        return self.name

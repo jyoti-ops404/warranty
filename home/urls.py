@@ -8,5 +8,6 @@ urlpatterns = [
     path('customer-warrenty', views.customer_warrenty, name='customer_warrenty'),
     #path('warranty_list', views.warranty_list, name='warranty_list'),
     path('products', views.products, name='products'),
-    path('products/<int:productId>/', views.product_detail, name='product_detail')
+    path('products/<int:productId>/', views.product_detail, name='product_detail'),
+    path('download_pdf/<int:warranty_id>/', views.download_pdf, name='download_pdf')
 ]
