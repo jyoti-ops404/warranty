@@ -18,6 +18,14 @@ class WarrantyAdmin(admin.ModelAdmin):
     list_filter = ('vendor',)
     search_fields = ('vendor__name', 'full_name', 'serial_number')
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs  # Allow superuser to see all data
+        if hasattr(request.user, 'vendor'):  # Check if the user is a vendor
+            return qs.filter(vendor=request.user.vendor)
+        return qs.none()  # Non-superusers without a vendor should see no data
+
 @admin.register(ContactUs)
 class ContactUsAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'message')
