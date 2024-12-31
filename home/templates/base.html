@@ -17,22 +17,20 @@
     <nav
       class="navbar glassy-navbar navbar-light sticky-top navbar-expand-md bg-faded justify-content-center shadow-sm w-100"
     >
-      <div class="container-fluid w-100">
+      <div class="container-fluid">
         <a href="/" class=" d-flex w-25 me-auto align-items-baseline">
           <img src="{% static 'img/logo.png' %}" style="width:220px;" alt="Logo" />
         </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapsingNavbar3"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse collapse w-75" id="collapsingNavbar3">
-          <ul class="navbar-nav w-75 justify-content-center">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link text-black" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-black" href="/products">Products</a>
             </li>
             <li class="nav-item active">
               <a class="nav-link text-black" href="/about">About Us</a>
@@ -41,12 +39,7 @@
               <a class="nav-link text-black" href="/contact">Contact Us</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link text-black" href="/customer-warrenty">Customer Warrenty</a>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav ms-auto justify-content-end nav-admin-login">
-            <li class="nav-item">
-              <a href="/admin"><button class="btn btn-dark">Admin Login</button></a>
+              <a class="nav-link text-black" href="/customer-warranty">Customer Warranty</a>
             </li>
           </ul>
         </div>
@@ -93,10 +86,10 @@
               <!-- Footer Menu-->
               <div class="footer_menu">
                 <ul class="footer-menu">
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Corporate Sale</a></li>
-                  <li><a href="#">Terms &amp; Policy</a></li>
-                  <li><a href="#">Community</a></li>
+                  <li><a href="/about">About Us</a></li>
+                  <li><a href="/products">Products</a></li>
+                  <li><a href="/customer-warranty">Warranty Form</a></li>
+                  <li><a href="/contact">Contact</a></li>
                 </ul>
               </div>
             </div>

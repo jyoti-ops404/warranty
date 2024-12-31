@@ -90,7 +90,7 @@ import os
 from django.utils.safestring import mark_safe
 
 
-def customer_warrenty(request):
+def customer_warranty(request):
     if request.method == 'POST':
         form = WarrantyForm(request.POST)
         if form.is_valid():
