@@ -6,7 +6,10 @@ class Product(models.Model):
     productName = models.TextField()
     productImage = models.ImageField()
     price = models.FloatField()
-    description=models.TextField()
+    description=models.TextField(null=True, blank=True)
+    details=models.TextField(null=True, blank=True)
+    highlights=models.TextField(null=True, blank=True)
+    featured=models.BooleanField(default=False)
 
     def __str__(self):
         return self.productId

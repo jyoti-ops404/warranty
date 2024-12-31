@@ -10,25 +10,9 @@ from reportlab.lib.pagesizes import letter
 import os
 from django.http import FileResponse
 
-# Create your views here.
-
-# View for the /add page
-# def add_student(request):
-#     if request.method == 'POST':
-#         form = StudentForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/view')  # Redirect to the /view page after saving
-#     else:
-#         form = StudentForm()
-#     return render(request, 'add.html', {'form': form})
-
-# # View for the /view page
-# def view_students(request):
-#     students = Student.objects.all()  # Retrieve all students from the datab
 
 def homepage(request):
-    productData = Product.objects.all()
+    productData = Product.objects.filter(featured=True)  # Only featured products
     return render(request, 'homepage.html',{'productData': productData})
 
 def about_us(request):
@@ -36,9 +20,6 @@ def about_us(request):
 
 def contact_us(request):
     return render(request, 'contact.html')
-
-#def customer_warrenty(request):
-    # return render(request, 'customer-warrenty.html')
 
 def products(request):
     productData = Product.objects.all()
@@ -139,7 +120,7 @@ def customer_warranty(request):
                 request,
                 mark_safe(f"Form submitted successfully! <a href='/download_pdf/{warranty.id}/'>Download Receipt</a>")
             )
-            return redirect('customer_warrenty')  # Redirect to display the success message
+            return redirect('customer_warranty')  # Redirect to display the success message
 
         else:
             messages.error(request, "There was an error in your submission. Please check the form and try again.")
@@ -147,7 +128,7 @@ def customer_warranty(request):
         form = WarrantyForm()
 
     vendors = Vendor.objects.all()
-    return render(request, 'customer-warrenty.html', {'form': form, 'vendors': vendors})
+    return render(request, 'customer-warranty.html', {'form': form, 'vendors': vendors})
 
 
 

@@ -5,6 +5,7 @@ from .models import Vendor, Warranty,ContactUs
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('productId', 'productName', 'productImage', 'price')  # Fields to show in the admin list view
+    list_filter = ['featured']
     search_fields = ('productId','productName')        # Add search functionality
 
 @admin.register(Vendor)
@@ -23,7 +24,7 @@ class WarrantyAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return qs  # Allow superuser to see all data
         if hasattr(request.user, 'vendor'):  # Check if the user is a vendor
-            return qs.filter(vendor=request.user.vendor)
+            return qs.filter(vendor__name=request.user.get_full_name())
         return qs.none()  # Non-superusers without a vendor should see no data
 
 @admin.register(ContactUs)
