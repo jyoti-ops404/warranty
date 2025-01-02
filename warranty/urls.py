@@ -24,6 +24,10 @@ urlpatterns = [
     path('', include('home.urls'))
 ]
 
+# admin.site.site_header = "Tejascorp Ltd."
+admin.site.site_title = "Tejascorp Admin Portal"
+admin.site.index_title = "Welcome to Tejascorp Admin Portal"
+
 # Add this only in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
