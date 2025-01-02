@@ -1,7 +1,10 @@
 from django.urls import path
 from . import views
+from django.contrib import admin
+
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', views.homepage, name='homepage'),
     path('about', views.about_us, name='about_us'),
     path('contact', views.contact_us, name='contact_us'),
@@ -10,3 +13,4 @@ urlpatterns = [
     path('products/<int:productId>/', views.product_detail, name='product_detail'),
     path('download_pdf/<int:warranty_id>/', views.download_pdf, name='download_pdf')
 ]
+

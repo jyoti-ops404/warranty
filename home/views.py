@@ -1,14 +1,15 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from .models import Product
 from django.contrib.auth.decorators import login_required
-from .models import Warranty, Vendor
-from .forms import WarrantyForm,ContactUsForm
+from .models import Warranty, Vendor,Inquiry
+from .forms import WarrantyForm,ContactUsForm,InquiryForm
 from django.contrib import messages
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 import os
 from django.http import FileResponse
+
 
 
 def homepage(request):
@@ -26,8 +27,26 @@ def products(request):
     return render(request, 'products.html', {'productData': productData})
 
 def product_detail(request, productId):
-    product = get_object_or_404(Product, id=productId)  # Retrieve the product by ID or return a 404
-    return render(request, 'product_detail.html', {'product': product})
+    product = get_object_or_404(Product, id=productId)
+    inquiry_made = False
+
+    if request.method == 'POST':
+        form = InquiryForm(request.POST)
+        if form.is_valid():
+            inquiry = form.save(commit=False)
+            inquiry.product = product
+            inquiry.save()
+            inquiry_made = True  # Flag to show success message
+    else:
+        form = InquiryForm()
+
+    return render(request, 'product_detail.html', {
+        'product': product,
+        'form': form,
+        'inquiry_made': inquiry_made,
+    })
+
+
 
 #def customer_warrenty(request):
  #   if request.method == 'POST':

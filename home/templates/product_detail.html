@@ -1,124 +1,101 @@
 {% extends 'base.html' %}
-{% block title %}{{product.productName}} | Eastman{% endblock %}
+{% block title %}{{ product.productName }} | Eastman{% endblock %}
 
 {% block content %}
 <div class="container mt-5 mb-5">
     <div class="row">
+        <!-- Product Image Section -->
         <div class="col-md-6 d-flex flex-column w-full justify-content-center align-items-center">
-            <a href="/media/{{product.productImage}}" style="max-width: 80%;"><img src="/media/{{product.productImage}}" alt="{{product.productName}}" style="max-width: 100%; height: auto; border-radius: 20px;"></a>
+            <a href="/media/{{ product.productImage }}" style="max-width: 80%;">
+                <img src="/media/{{ product.productImage }}" alt="{{ product.productName }}" style="max-width: 100%; height: auto; border-radius: 20px;">
+            </a>
 
-            <!-- Accordion for devices with width greater than that of medium device -->
-            <div class="accordion accordion-flush mt-3 accordion-medium-device" style="width: 90%;" id="productDescriptionAccordion">
+            <!-- Accordion for all devices -->
+            <div class="accordion accordion-flush mt-3" style="width: 90%;" id="productDescriptionAccordion">
                 <div class="accordion-item">
-                  <h2 class="accordion-header">
-                    <button class="accordion-button collapsed bg-transparent shadow-none text-black fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                      Description
-                    </button>
-                  </h2>
-                  <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#productDescriptionAccordion">
-                    <div class="accordion-body">{{product.description|linebreaks}}</div>
-                  </div>
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-transparent shadow-none text-black fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            Description
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#productDescriptionAccordion">
+                        <div class="accordion-body">{{ product.description|linebreaks }}</div>
+                    </div>
                 </div>
                 <div class="accordion-item">
-                  <h2 class="accordion-header">
-                    <button class="accordion-button collapsed bg-transparent shadow-none text-black fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseOne">
-                        Details
-                      </button>
-                  </h2>
-                  <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#productDescriptionAccordion">
-                    <div class="accordion-body">{{product.details|linebreaks}}</div>
-                  </div>
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-transparent shadow-none text-black fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                            Details
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#productDescriptionAccordion">
+                        <div class="accordion-body">{{ product.details|linebreaks }}</div>
+                    </div>
                 </div>
                 <div class="accordion-item">
-                  <h2 class="accordion-header">
-                    <button class="accordion-button collapsed bg-transparent shadow-none text-black fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseOne">
-                        Highlights
-                      </button>
-                  </h2>
-                  <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#productDescriptionAccordion">
-                    <div class="accordion-body">{{product.highlights|linebreaks}}</div>
-                  </div>
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-transparent shadow-none text-black fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                            Highlights
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#productDescriptionAccordion">
+                        <div class="accordion-body">{{ product.highlights|linebreaks }}</div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Product Details Section -->
         <div class="col-md-6 product-details">
-            <h3 class="mt-4 fw-bold">{{product.productName}}</h3>
-            <h5 class="mt-3">Rs. {{product.price }}</h5>
+            <h3 class="mt-4 fw-bold">{{ product.productName }}</h3>
+            <h5 class="mt-3">Rs. {{ product.price }}</h5>
             <h6 class="mt-4">Product Details:</h6>
-            <p style="margin-top: -10px;">{{product.description|linebreaks}}</p>
-            <button type="button" class="btn btn-dark px-3 mt-4" data-bs-toggle="modal" data-bs-target="#exampleModal">Make an Enquiry</button>
+            <p style="margin-top: -10px;">{{ product.description|linebreaks }}</p>
+
+            <!-- Conditional Button Logic -->
+            {% if inquiry_made %}
+                <button type="button" class="btn btn-success px-3 mt-4" disabled>Your Inquiry Was Successfully Made</button>
+            {% else %}
+                <button type="button" class="btn btn-dark px-3 mt-4" data-bs-toggle="modal" data-bs-target="#exampleModal">Make an Enquiry</button>
+            {% endif %}
         </div>
 
-        <!-- Accordion for mobile devices -->
-        <div class="accordion accordion-flush mt-3 accordion-mobile-device" id="productDescriptionAccordion">
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-transparent shadow-none text-black fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                  Description
-                </button>
-              </h2>
-              <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#productDescriptionAccordion">
-                <div class="accordion-body">{{product.description|linebreaks}}</div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-transparent shadow-none text-black fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseOne">
-                    Details
-                  </button>
-              </h2>
-              <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#productDescriptionAccordion">
-                <div class="accordion-body"></div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-transparent shadow-none text-black fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseOne">
-                    Highlights
-                  </button>
-              </h2>
-              <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#productDescriptionAccordion">
-                <div class="accordion-body"></div>
-              </div>
-            </div>
-        </div>
-
-        <!-- Modal -->
+        <!-- Modal for Enquiry -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-              <div class="modal-content">
-              <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Enquire about Product</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <form class="" method="post">
-                  {% csrf_token %}
-                  <div class="mb-3">
-                      <label class="form-label">Full Name</label>
-                      <input type="text" name="full_name" class="form-control" required>
-                  </div>
-                  <div class="row">
-                      <div class="mb-3 col-md-6">
-                          <label class="form-label">Phone</label>
-                          <input type="number" name="phone" class="form-control" maxlength="10" required>
-                      </div>
-                      <div class="mb-3 col-md-6">
-                          <label class="form-label">Email (optional)</label>
-                          <input type="email" name="email" class="form-control">
-                      </div>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-              </div>
-          </div>
-          </div>
-
-
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Enquire about {{ product.productName }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" name="name" class="form-control" required>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">Phone</label>
+                                    <input type="number" name="phone" class="form-control" required>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">Email (optional)</label>
+                                    <input type="email" name="email" class="form-control">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
+
+
+
+
+

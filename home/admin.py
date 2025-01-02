@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Product
-from .models import Vendor, Warranty,ContactUs
+from .models import Vendor, Warranty,ContactUs,Inquiry
+
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -30,3 +31,7 @@ class WarrantyAdmin(admin.ModelAdmin):
 @admin.register(ContactUs)
 class ContactUsAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'message')
+
+@admin.register(Inquiry)
+class InquiryAdmin(admin.ModelAdmin):
+    list_display = ('product', 'name', 'phone', 'email')
