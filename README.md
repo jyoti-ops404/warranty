@@ -1,0 +1,1 @@
+A Django-based web application that allows vendors to manage customer warranty forms. Admin users can add and assign vendors, while vendors can securely log in and view only the warranty records related to them. The project is deployed on PythonAnywhere.
