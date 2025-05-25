@@ -9,7 +9,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 import os
 from django.http import FileResponse
-
+import json
 
 
 def homepage(request):
@@ -21,6 +21,9 @@ def about_us(request):
 
 def contact_us(request):
     return render(request, 'contact.html')
+
+def calculator(request):
+    return render(request, 'calculator.html')
 
 def products(request):
     productData = Product.objects.all()

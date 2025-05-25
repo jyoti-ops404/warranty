@@ -6,6 +6,7 @@ from django.contrib import admin
 urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('about', views.about_us, name='about_us'),
+    path('calculator', views.calculator, name='calculator'),
     path('contact', views.contact_us, name='contact_us'),
     path('customer-warranty', views.customer_warranty, name='customer_warranty'),
     path('products', views.products, name='products'),

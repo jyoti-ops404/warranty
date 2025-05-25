@@ -1,0 +1,214 @@
+{% extends 'base.html' %} 
+{% block title %}Power Load Calculator | TejasCorp{%endblock %} 
+{% load static %} 
+{% block content %}
+<style>
+  .nav-item .nav-link {
+    display: block;
+    width: 100%;
+    text-align: left; /* or center, whatever you want */
+    padding: 0.5rem 1rem; /* ensure enough clickable padding */
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .nav-link {
+    color: black !important;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  .nav-link:hover {
+    color: var(--bs-secondary) !important;
+  }
+  .nav-link.active {
+    color: blue !important;
+    background-color: transparent !important;
+  }
+  .nav-link.active::after {
+    content: " >";
+    color: blue;
+    font-weight: bold;
+    position: absolute;
+    right: 10px;
+  }
+  .product-item {
+    font-weight: 500;
+  }
+</style>
+
+<section class="container my-5">
+  <h1 class="mb-5">Load Calculator</h1>
+  <div class="row">
+    <!-- Left Sidebar Tabs -->
+    <div class="col-md-3 border-end">
+      <ul
+        class="nav flex-column nav-pills"
+        id="subcategoryTabs"
+        role="tablist"
+        aria-orientation="vertical"
+      ></ul>
+    </div>
+
+    <!-- Right Products Display -->
+    <div class="col-md-9">
+      <div class="tab-content d-inline-block" id="subcategoryTabContent"></div>
+    </div>
+  </div>
+
+  <!-- Footer Controls -->
+  <div class="row mt-5 border-top pt-3">
+    <div class="col-md-4">
+      <input
+        type="text"
+        id="totalLoad"
+        class="form-control"
+        placeholder="Total Load (W)*"
+        readonly
+      />
+    </div>
+    <div class="col-md-4">
+      <select class="form-select" id="runningLoad">
+        <option selected disabled>Average Running Load (%)*</option>
+        <option value="25">25%</option>
+        <option value="50">50%</option>
+        <option value="75">75%</option>
+        <option value="100">100%</option>
+      </select>
+    </div>
+  </div>
+  <div class="mb-4 mt-4" style="width: 350px;">
+    <label for="usageHours" class="form-label fw-medium">Daily Usage Hours: <span id="hoursValue">1</span> hrs</label>
+    <input type="range" class="form-range" min="0" max="24" step="1" id="usageHours" value="1">
+  </div>
+  <div class="text-end" style="margin-top: -5rem;">
+    <button class="btn btn-primary" id="nextBtn" disabled>Calculate</button>
+  </div>
+</section>
+
+<script>
+  const totalLoadInput = document.getElementById('totalLoad');
+  const runningLoadSelect = document.getElementById('runningLoad');
+  const usageHoursSlider = document.getElementById('usageHours');
+  const hoursValue = document.getElementById('hoursValue');
+  const nextBtn = document.getElementById('nextBtn');
+
+  // Update the hour label
+  usageHoursSlider.addEventListener('input', () => {
+    hoursValue.textContent = usageHoursSlider.value;
+    validateForm();
+  });
+
+  // Enable calculate button when all fields are valid
+  runningLoadSelect.addEventListener('change', validateForm);
+
+  function validateForm() {
+    const load = parseFloat(totalLoadInput.value) || 0;
+    const runningLoad = parseFloat(runningLoadSelect.value) || 0;
+    const hours = parseFloat(usageHoursSlider.value) || 0;
+
+    nextBtn.disabled = !(load > 0 && runningLoad > 0 && hours > 0);
+  }
+
+  // Handle calculate button click
+  nextBtn.addEventListener('click', () => {
+    const totalLoad = parseFloat(totalLoadInput.value);
+    const runningLoadPercent = parseFloat(runningLoadSelect.value);
+    const usageHours = parseFloat(usageHoursSlider.value);
+
+    const wattHours = totalLoad * (runningLoadPercent / 100) * usageHours;
+
+    const resultBox = document.createElement('div');
+    resultBox.className = 'alert alert-success mt-4 fw-medium';
+    resultBox.textContent = `Total Consumption: ${wattHours.toFixed(2)} Wh`;
+
+    // Remove old result if exists
+    const oldResult = document.getElementById('resultBox');
+    if (oldResult) oldResult.remove();
+
+    resultBox.id = 'resultBox';
+    nextBtn.closest('div').after(resultBox);
+  });
+</script>
+
+
+<script>
+  fetch("{% static 'json/appliances.json' %}")
+    .then((response) => response.json())
+    .then((data) => {
+      const subCategories = data[0].subCategoriesList;
+      const tabsContainer = document.getElementById("subcategoryTabs");
+      const tabContentContainer = document.getElementById(
+        "subcategoryTabContent"
+      );
+
+      subCategories.forEach((subCat, index) => {
+        // Sidebar Tab
+        const tab = document.createElement("li");
+        tab.className = "nav-item";
+        tab.innerHTML = `
+            <button class="nav-link ${
+              index === 0 ? "active" : ""
+            }" id="tab-${index}" data-bs-toggle="pill"
+              data-bs-target="#content-${index}" type="button" role="tab">${
+          subCat.subCategoryName
+        }</button>
+          `;
+        tabsContainer.appendChild(tab);
+
+        // Tab Pane Content
+        const tabPane = document.createElement("div");
+        tabPane.className = `tab-pane fade ${index === 0 ? "show active" : ""}`;
+        tabPane.id = `content-${index}`;
+        tabPane.role = "tabpanel";
+
+        subCat.products.forEach((product, pIndex) => {
+          const card = document.createElement("div");
+          card.className =
+            "d-inline-flex flex-row gap-3 me-5 mb-48 justify-content-between align-items-center p-3 mb-2 bg-white border rounded";
+
+          card.innerHTML = `
+              <div>
+                <span class="product-item">${product.productName} ${product.watts}W</span>
+              </div>
+              <div class="input-group" style="width: 120px;">
+                <button class="btn btn-outline-secondary decrement">−</button>
+                <input type="number" class="form-control text-center qty" value="0" data-watts="${product.watts}">
+                <button class="btn btn-outline-secondary increment">+</button>
+              </div>
+            `;
+
+          tabPane.appendChild(card);
+        });
+
+        tabContentContainer.appendChild(tabPane);
+      });
+
+      // Quantity Logic
+      document.addEventListener("click", function (e) {
+        if (
+          e.target.classList.contains("increment") ||
+          e.target.classList.contains("decrement")
+        ) {
+          const input = e.target.closest(".input-group").querySelector(".qty");
+          let val = parseInt(input.value);
+          if (e.target.classList.contains("increment")) val++;
+          if (e.target.classList.contains("decrement") && val > 0) val--;
+          input.value = val;
+          updateTotal();
+        }
+      });
+
+      function updateTotal() {
+        let total = 0;
+        document.querySelectorAll(".qty").forEach((input) => {
+          const qty = parseInt(input.value);
+          const watts = parseFloat(input.dataset.watts);
+          if (!isNaN(qty) && !isNaN(watts)) total += qty * watts;
+        });
+        document.getElementById("totalLoad").value = total;
+        document.getElementById("nextBtn").disabled = total === 0;
+      }
+    })
+    .catch((err) => console.error("JSON Load Error:", err));
+</script>
+
+{% endblock %}

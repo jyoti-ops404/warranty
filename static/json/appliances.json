@@ -1,0 +1,211 @@
+[
+    {
+        "categoryName": "Appliances",
+        "subCategoriesList": [
+            {
+                "subCategoryName": "Fans and coolers",
+                "products": [
+                    {
+                        "productName": "Ceiling Fan",
+                        "watts": "75"
+                    },
+                    {
+                        "productName": "Table Fan",
+                        "watts": "50"
+                    },
+                    {
+                        "productName": "Room Cooler",
+                        "watts": "250"
+                    }
+                ]
+            },
+            {
+                "subCategoryName": "Laptops and Computers",
+                "products": [
+                    {
+                        "productName": "Laptop",
+                        "watts": "100"
+                    }
+                ]
+            },
+            {
+                "subCategoryName": "Lights",
+                "products": [
+                    {
+                        "productName": "LED Bulb",
+                        "watts": "5"
+                    },
+                    {
+                        "productName": "LED Bulb",
+                        "watts": "9"
+                    },
+                    {
+                        "productName": "CFL Light",
+                        "watts": "15"
+                    },
+                    {
+                        "productName": "Tubelight",
+                        "watts": "20"
+                    },
+                    {
+                        "productName": "CFL Heavy",
+                        "watts": "30"
+                    },
+                    {
+                        "productName": "Tubelight",
+                        "watts": "40"
+                    },
+                    {
+                        "productName": "Light Bulb (Incandescent)",
+                        "watts": "40"
+                    },
+                    {
+                        "productName": "Light Bulb (Incandescent)",
+                        "watts": "60"
+                    },
+                    {
+                        "productName": "Light Bulb (Incandescent)",
+                        "watts": "100"
+                    }
+                ]
+            },
+            {
+                "subCategoryName": "Home Appliances",
+                "products": [
+                    {
+                        "productName": "Juicer Mixer Grinder",
+                        "watts": "800"
+                    },
+                    {
+                        "productName": "Toaster",
+                        "watts": "800"
+                    },
+                    {
+                        "productName": "Refrigerator (upto 200L)",
+                        "watts": "300"
+                    },
+                    {
+                        "productName": "Refrigerator (upto 500L)",
+                        "watts": "500"
+                    },
+                    {
+                        "productName": "Microwave Oven",
+                        "watts": "1400"
+                    },
+                    {
+                        "productName": "Vacuum Cleaner",
+                        "watts": "1400"
+                    },
+                    {
+                        "productName": "Washing Machine",
+                        "watts": "1000"
+                    },
+                    {
+                        "productName": "Geyser/Water Heater",
+                        "watts": "2200"
+                    },
+                    {
+                        "productName": "Room Heater",
+                        "watts": "2200"
+                    }
+                ]
+            },
+            {
+                "subCategoryName": "TV & other entertainment",
+                "products": [
+                    {
+                        "productName": "Television LED (upto 40\")",
+                        "watts": "60"
+                    },
+                    {
+                        "productName": "Television CRT (upto 21\")",
+                        "watts": "100"
+                    },
+                    {
+                        "productName": "Television Plasma",
+                        "watts": "250"
+                    },
+                    {
+                        "productName": "Set Top Box (DTH)",
+                        "watts": "50"
+                    },
+                    {
+                        "productName": "Music System",
+                        "watts": "300"
+                    },
+                    {
+                        "productName": "Gaming Console",
+                        "watts": "200"
+                    }
+                ]
+            },
+            {
+                "subCategoryName": "ACs",
+                "products": [
+                    {
+                        "productName": "Air Conditioner (1 Ton, 3 star)",
+                        "watts": "1200"
+                    },
+                    {
+                        "productName": "Air Conditioner (1.5 Ton, 3 star)",
+                        "watts": "1700"
+                    },
+                    {
+                        "productName": "Air Conditioner (2 Ton, 3 star)",
+                        "watts": "2300"
+                    },
+                    {
+                        "productName": "Air Conditioner (1 Ton, Inverter)",
+                        "watts": "1100"
+                    },
+                    {
+                        "productName": "Air Conditioner (1.5 Ton, Inverter)",
+                        "watts": "1600"
+                    },
+                    {
+                        "productName": "Air Conditioner (2 Ton, Inverter)",
+                        "watts": "2100"
+                    }
+                ]
+            },
+            {
+                "subCategoryName": "Others",
+                "products": [
+                    {
+                        "productName": "Photo Copier",
+                        "watts": "2000"
+                    },
+                    {
+                        "productName": "Office Printer/Scanner",
+                        "watts": "2000"
+                    },
+                    {
+                        "productName": "Petrol Filling Machine",
+                        "watts": "1500"
+                    },
+                    {
+                        "productName": "Projector",
+                        "watts": "600"
+                    },
+                    {
+                        "productName": "Surveillance System",
+                        "watts": "100"
+                    }
+                ]
+            },
+            {
+                "subCategoryName": "Motors",
+                "products": [
+                    {
+                        "productName": "Water Pump (0.5 HP)",
+                        "watts": "400"
+                    },
+                    {
+                        "productName": "Water Pump (1 HP)",
+                        "watts": "800"
+                    }
+                ]
+            }
+        ]
+    }
+]
