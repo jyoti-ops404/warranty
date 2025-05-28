@@ -1,7 +1,10 @@
 from django.contrib import admin
-from .models import Product
-from .models import Vendor, Warranty,ContactUs,Inquiry
+from .models import Product, ProductType, Vendor, Warranty,ContactUs,Inquiry
 
+@admin.register(ProductType)
+class ProductTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'image')
+    search_fields = ('name',)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
