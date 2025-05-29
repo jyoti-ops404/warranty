@@ -4,7 +4,7 @@
 
 {% block content %}
 <section class="container" style="margin-top: 4rem; margin-bottom: 4rem;">
-    <h1>Availabe Products</h1>
+    <h2>{{ productType.name }}</h2>
     <div class="row g-3 mt-4">
   
       {% for data in productData %}
@@ -14,7 +14,10 @@
               <img src="/media/{{ data.productImage }}" alt="Product" />
             </div>
             <h6 class="mt-3">{{ data.productName }}</h6>
-            <p class="mt-3 fw-bold">Rs. {{ data.price }}</p>
+            <div class="mt-3 d-flex flex-column-reverse flex-md-row justify-content-between">
+              <p class="fw-bold">Rs. {{ data.price }}</p>
+              <p class="fw-bold">{{ data.Volt }}V - {{ data.Ah }}Ah</p>
+            </div>
         </a>
       </div>
       {% endfor %}

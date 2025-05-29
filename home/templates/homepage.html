@@ -2,8 +2,8 @@
 Ltd.{% endblock%} {% block content %}
 
 <!-- Carousel -->
-<div class="mx-5">
-  <div id="carouselExampleIndicators" class="carousel slide carousel-fade">
+<div class="mx-0 mx-md-5">
+  <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
     <div class="carousel-indicators">
       <button
         type="button"
@@ -58,6 +58,28 @@ Ltd.{% endblock%} {% block content %}
 </div>
 
 <div class="container mt-3">
+
+  <!-- Batteries types -->
+  <section style="margin-top: 4rem">
+    <h1>Our Batteries</h1>
+    <div class="row g-3">
+      {% for data in batteryTypes %}
+      <div class="px-5 px-md-0 md:px-0 col-12 col-md-6 col-lg-4 d-flex align-items-stretch">
+        <a
+          class="product-card p-4"
+          href="{% url 'products' data.id %}"
+          style="text-decoration: none; color: inherit"
+        >
+          <div class="product-card-image">
+            <img src="/media/{{ data.image }}" alt="Product" />
+          </div>
+          <h6 class="mt-5 text-center fw-bold fs-5">{{ data.name }}</h6>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
   <!-- Featured Products -->
   <section style="margin-top: 4rem">
     <h1>Best Sellers</h1>
@@ -73,7 +95,10 @@ Ltd.{% endblock%} {% block content %}
             <img src="/media/{{ data.productImage }}" alt="Product" />
           </div>
           <h6 class="mt-3">{{ data.productName }}</h6>
-          <p class="mt-3 fw-bold">Rs. {{ data.price }}</p>
+          <div class="mt-3 d-flex flex-column-reverse flex-md-row justify-content-between">
+            <p class="fw-bold">Rs. {{ data.price }}</p>
+            <p class="fw-bold">{{ data.Volt }}V - {{ data.Ah }}Ah</p>
+          </div>
         </a>
       </div>
       {% endfor %}

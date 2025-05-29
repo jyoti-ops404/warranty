@@ -4,8 +4,15 @@ from django.contrib.auth.models import User
 from django.db import models
 
 class ProductType(models.Model):
+    BATTERY = 'Battery'
+    OTHER_ITEM = 'Other Item'
+    TYPE_CHOICES = [
+        (BATTERY, 'Battery'),
+        (OTHER_ITEM, 'Other Item'),
+    ]
     name = models.TextField()
     image = models.ImageField(upload_to='product_type_images/')
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=BATTERY)
 
     def __str__(self):
         return self.name

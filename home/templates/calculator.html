@@ -85,6 +85,8 @@
 </section>
 
 <script>
+  const productData = JSON.parse('{{ productDataJson|escapejs }}');
+
   const totalLoadInput = document.getElementById('totalLoad');
   const runningLoadSelect = document.getElementById('runningLoad');
   const usageHoursSlider = document.getElementById('usageHours');
@@ -109,24 +111,104 @@
   }
 
   // Handle calculate button click
+  // nextBtn.addEventListener('click', () => {
+  //   const totalLoad = parseFloat(totalLoadInput.value);
+  //   const runningLoadPercent = parseFloat(runningLoadSelect.value);
+  //   const usageHours = parseFloat(usageHoursSlider.value);
+
+  //   const ampereHours = totalLoad * (runningLoadPercent / 100) * usageHours / 12;
+
+  //   // Find best fit battery
+  //   const bestFit = productData
+  //   .filter(p => p.Ah >= ampereHours)
+  //   .sort((a, b) => a.Ah - b.Ah)[0];
+
+  //   const resultBox = document.createElement('div');
+  //   resultBox.className = 'alert alert-success mt-4 fw-medium';
+  //   resultBox.id = 'resultBox';
+  //   resultBox.innerHTML = `
+  //     Total Consumption: ${ampereHours.toFixed(2)} Ah<br>
+  //     ${bestFit
+  //       ? `<strong>Best Battery for you:</strong> ${bestFit.productName} - ${bestFit.Volt}V ${bestFit.Ah}Ah<br>
+  //         <a href="/products/${bestFit.id}" class="btn btn-sm btn-primary mt-2">View Product</a>`
+  //       : '<strong>No suitable battery found.</strong>'
+  //     }
+  //   `;
+
+  //   // Remove old result if exists
+  //   const oldResult = document.getElementById('resultBox');
+  //   if (oldResult) oldResult.remove();
+
+  //   nextBtn.closest('div').after(resultBox);
+  // });
   nextBtn.addEventListener('click', () => {
-    const totalLoad = parseFloat(totalLoadInput.value);
-    const runningLoadPercent = parseFloat(runningLoadSelect.value);
-    const usageHours = parseFloat(usageHoursSlider.value);
+  const totalLoad = parseFloat(totalLoadInput.value);
+  const runningLoadPercent = parseFloat(runningLoadSelect.value);
+  const usageHours = parseFloat(usageHoursSlider.value);
 
-    const wattHours = totalLoad * (runningLoadPercent / 100) * usageHours;
+  const ampereHours = totalLoad * (runningLoadPercent / 100) * usageHours / 12;
 
-    const resultBox = document.createElement('div');
-    resultBox.className = 'alert alert-success mt-4 fw-medium';
-    resultBox.textContent = `Total Consumption: ${wattHours.toFixed(2)} Wh`;
+  // Try to find the best single fit
+  const bestSingleFit = productData
+    .filter(p => p.Ah >= ampereHours)
+    .sort((a, b) => a.Ah - b.Ah)[0];
 
-    // Remove old result if exists
-    const oldResult = document.getElementById('resultBox');
-    if (oldResult) oldResult.remove();
+  let message = `<strong>Total Consumption:</strong> ${ampereHours.toFixed(2)} Ah<br>`;
 
-    resultBox.id = 'resultBox';
-    nextBtn.closest('div').after(resultBox);
-  });
+  if (bestSingleFit) {
+    message += `<strong>Best Battery for you:</strong> ${bestSingleFit.productName} - ${bestSingleFit.Volt}V ${bestSingleFit.Ah}Ah<br>
+      <a href="/products/${bestSingleFit.id}" class="btn btn-sm btn-primary mt-2">View Product</a>`;
+  } else {
+    // Try combinations
+    const combos = [];
+
+    function findCombinations(arr, target, current = [], index = 0) {
+      const totalAh = current.reduce((sum, p) => sum + p.Ah, 0);
+      if (totalAh >= target) {
+        combos.push([...current]);
+        return;
+      }
+      for (let i = index; i < arr.length; i++) {
+        current.push(arr[i]);
+        findCombinations(arr, target, current, i); // allow same battery multiple times
+        current.pop();
+      }
+    }
+
+    findCombinations(productData, ampereHours);
+
+    if (combos.length > 0) {
+      // Pick the combo with the fewest batteries and lowest total excess
+      combos.sort((a, b) => {
+        const diffA = a.reduce((sum, p) => sum + p.Ah, 0) - ampereHours;
+        const diffB = b.reduce((sum, p) => sum + p.Ah, 0) - ampereHours;
+        return a.length - b.length || diffA - diffB;
+      });
+
+      const bestCombo = combos[0];
+      const totalComboAh = bestCombo.reduce((sum, p) => sum + p.Ah, 0);
+
+      message += `<strong>Recommended Combination:</strong> Total ${totalComboAh.toFixed(2)} Ah using ${bestCombo.length} batteries:<br>`;
+      bestCombo.forEach((b, i) => {
+        message += `• ${b.productName} - ${b.Volt}V ${b.Ah}Ah 
+          <a href="/products/${b.id}" class="btn btn-link btn-sm">View</a><br>`;
+      });
+    } else {
+      message += `<span class="text-danger fw-bold">We couldn't find a combination to meet your load from the available batteries. Please contact support for custom solutions.</span>`;
+    }
+  }
+
+  const resultBox = document.createElement('div');
+  resultBox.className = 'alert alert-success mt-4 fw-medium';
+  resultBox.id = 'resultBox';
+  resultBox.innerHTML = message;
+
+  const oldResult = document.getElementById('resultBox');
+  if (oldResult) oldResult.remove();
+
+  nextBtn.closest('div').after(resultBox);
+});
+
 </script>
 
 

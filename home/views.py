@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from .models import Product
+from .models import Product, ProductType
 from django.contrib.auth.decorators import login_required
 from .models import Warranty, Vendor,Inquiry
 from .forms import WarrantyForm,ContactUsForm,InquiryForm
@@ -14,7 +14,14 @@ import json
 
 def homepage(request):
     productData = Product.objects.filter(featured=True)  # Only featured products
-    return render(request, 'homepage.html',{'productData': productData})
+    batteryTypes = ProductType.objects.filter(type='Battery')
+    otherItemTypes = ProductType.objects.filter(type='Other Item')
+
+    return render(request, 'homepage.html', {
+        'productData': productData,
+        'batteryTypes': batteryTypes,
+        'otherItemTypes': otherItemTypes,
+    })
 
 def about_us(request):
     return render(request, 'aboutus.html')
@@ -23,11 +30,30 @@ def contact_us(request):
     return render(request, 'contact.html')
 
 def calculator(request):
-    return render(request, 'calculator.html')
+    product_type = get_object_or_404(ProductType, id=1)
+    productData = Product.objects.filter(type=product_type)
+    serialized_data = json.dumps([
+        {
+            'id': p.id,
+            'productName': p.productName,
+            'Ah': p.Ah,
+            'Volt': p.Volt,
+            'price': p.price,
+            'productImage': p.productImage.url if p.productImage else ''
+        } for p in productData
+    ])
 
-def products(request):
-    productData = Product.objects.all()
-    return render(request, 'products.html', {'productData': productData})
+    return render(request, 'calculator.html', {
+        'productDataJson': serialized_data
+    })
+
+def products(request, typeId):
+    product_type = get_object_or_404(ProductType, id=typeId)
+    productData = Product.objects.filter(type=product_type)
+    return render(request, 'products.html', {
+        'productData': productData,
+        'productType': product_type
+    })
 
 def product_detail(request, productId):
     product = get_object_or_404(Product, id=productId)
