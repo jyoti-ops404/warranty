@@ -47,6 +47,12 @@ def calculator(request):
         'productDataJson': serialized_data
     })
 
+def all_products(request):
+    productData = Product.objects.all()
+    return render(request, 'all_products.html', {
+        'productData': productData
+    })
+
 def products(request, typeId):
     product_type = get_object_or_404(ProductType, id=typeId)
     productData = Product.objects.filter(type=product_type)
