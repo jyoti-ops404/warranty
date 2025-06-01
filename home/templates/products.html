@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}Products | TejasCorp{% endblock %}
 
-
 {% block content %}
 <section class="container" style="margin-top: 4rem; margin-bottom: 4rem;">
-    <h2>{{ productType.name }}</h2>
+
+  {% for type_name, products in grouped_products %}
+    <h2 class="mt-5">{{ type_name }}</h2>
     <div class="row g-3 mt-4">
-  
-      {% for data in productData %}
+      {% for data in products %}
       <div class="col-6 col-md-6 col-lg-4 col-xl-3 d-flex align-items-stretch">
         <a class="product-card p-4" href="{% url 'product_detail' data.id %}" style="text-decoration: none; color: inherit;">
             <div class="product-card-image">
@@ -21,7 +21,8 @@
         </a>
       </div>
       {% endfor %}
-  
     </div>
-  </section>
+  {% endfor %}
+
+</section>
 {% endblock %}

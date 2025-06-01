@@ -10,7 +10,7 @@ from reportlab.lib.pagesizes import letter
 import os
 from django.http import FileResponse
 import json
-
+from collections import defaultdict
 
 def homepage(request):
     productData = Product.objects.filter(featured=True)  # Only featured products
@@ -48,9 +48,13 @@ def calculator(request):
     })
 
 def all_products(request):
-    productData = Product.objects.all()
-    return render(request, 'all_products.html', {
-        'productData': productData
+    grouped_products = defaultdict(list)
+
+    for product in Product.objects.select_related('type').all():
+        grouped_products[product.type].append(product)
+
+    return render(request, 'products.html', {
+        'grouped_products': grouped_products.items(),
     })
 
 def products(request, typeId):

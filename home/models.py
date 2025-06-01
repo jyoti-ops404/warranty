@@ -14,6 +14,10 @@ class ProductType(models.Model):
     image = models.ImageField(upload_to='product_type_images/')
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=BATTERY)
 
+    class Meta:
+        verbose_name = "Product Types"
+        verbose_name_plural = "Product Types"
+
     def __str__(self):
         return self.name
 
@@ -49,6 +53,10 @@ class Warranty(models.Model):
     date_of_sale = models.DateField()
     serial_number = models.CharField(max_length=255)
 
+    class Meta:
+        verbose_name = "Warranty Claims"
+        verbose_name_plural = "Warranty Claims"
+
     def __str__(self):
         return f"{self.full_name} - {self.model}"
     
@@ -56,6 +64,10 @@ class ContactUs(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     message = models.TextField()
+
+    class Meta:
+        verbose_name = "Contact Us"
+        verbose_name_plural = "Contact Us"
 
     def __str__(self):
         return self.name
