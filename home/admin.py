@@ -9,7 +9,7 @@ class ProductTypeAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('productId', 'productName', 'productImage', 'price')  # Fields to show in the admin list view
-    list_filter = ['featured']
+    list_filter = ['type', 'featured']
     search_fields = ('productId','productName')        # Add search functionality
 
 @admin.register(Vendor)
