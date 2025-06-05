@@ -36,10 +36,22 @@
                 <input type="email" name="email" class="form-control">
             </div>
         </div>
+        <div class="mb-3">
+            <label class="form-label">Product Type</label>
+            <select id="batteryTypeSelect" class="form-control" required>
+                <option value="" selected>Select Battery Type</option>
+                {% for battery in battery_types %}
+                <option value="{{ battery.id }}">{{ battery.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <div class="row">
             <div class="mb-3 col-md-6">
                 <label class="form-label">Model</label>
-                <input type="text" name="model" class="form-control" required>
+                <select name="model" id="modelSelect" class="form-control" required>
+                    <option value="" selected>Select Model</option>
+                    <!-- Models will be populated based on battery type -->
+                </select>
             </div>
             <div class="mb-3 col-md-6">
                 <label class="form-label">Date of Sales</label>
@@ -76,6 +88,7 @@
                 <p><strong>Full Name:</strong> <span id="previewFullName"></span></p>
                 <p><strong>Phone:</strong> <span id="previewPhone"></span></p>
                 <p><strong>Email:</strong> <span id="previewEmail"></span></p>
+                <p><strong>Battery Type:</strong> <span id="previewBatteryType"></span></p>
                 <p><strong>Model:</strong> <span id="previewModel"></span></p>
                 <p><strong>Date of Sale:</strong> <span id="previewDate"></span></p>
                 <p><strong>Serial Number:</strong> <span id="previewSerial"></span></p>
@@ -83,7 +96,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Edit</button>
-                <button type="submit" class="btn btn-primary">Submit and download receipt</button>
+                <button id="submitButton" type="submit" class="btn btn-primary" disabled>Submit and download receipt</button>
             </div>
             </div>
         </div>
@@ -99,24 +112,63 @@
 
 <script>
     function previewForm() {
-        // Fetch form values
-        const fullName = document.querySelector('input[name="full_name"]').value;
-        const phone = document.querySelector('input[name="phone"]').value;
-        const email = document.querySelector('input[name="email"]').value;
-        const model = document.querySelector('input[name="model"]').value;
-        const dateOfSale = document.querySelector('input[name="date_of_sale"]').value;
-        const serialNumber = document.querySelector('input[name="serial_number"]').value;
-        const vendorSelect = document.querySelector('select[name="vendor"]');
-        const vendor = vendorSelect.options[vendorSelect.selectedIndex].text;
+        const fullName = document.querySelector('input[name="full_name"]').value.trim();
+        const phone = document.querySelector('input[name="phone"]').value.trim();
+        const email = document.querySelector('input[name="email"]').value.trim();
 
-        // Populate modal
-        document.getElementById('previewFullName').textContent = fullName;
-        document.getElementById('previewPhone').textContent = phone;
+        const modelSelect = document.querySelector('select[name="model"]');
+        const model = modelSelect.options[modelSelect.selectedIndex]?.text || 'N/A';
+
+        const dateOfSale = document.querySelector('input[name="date_of_sale"]').value.trim();
+        const serialNumber = document.querySelector('input[name="serial_number"]').value.trim();
+
+        const vendorSelect = document.querySelector('select[name="vendor"]');
+        const vendor = vendorSelect.options[vendorSelect.selectedIndex]?.text || 'N/A';
+
+        const batteryTypeSelect = document.getElementById('batteryTypeSelect');
+        const batteryType = batteryTypeSelect.options[batteryTypeSelect.selectedIndex]?.text || 'N/A';
+
+        // Populate preview modal
+        document.getElementById('previewFullName').textContent = fullName || 'N/A';
+        document.getElementById('previewPhone').textContent = phone || 'N/A';
         document.getElementById('previewEmail').textContent = email || 'N/A';
         document.getElementById('previewModel').textContent = model;
-        document.getElementById('previewDate').textContent = dateOfSale;
-        document.getElementById('previewSerial').textContent = serialNumber;
+        document.getElementById('previewDate').textContent = dateOfSale || 'N/A';
+        document.getElementById('previewSerial').textContent = serialNumber || 'N/A';
         document.getElementById('previewVendor').textContent = vendor;
+        document.getElementById('previewBatteryType').textContent = batteryType;
+
+        // Enable/disable submit button
+        const isValid = fullName && phone && modelSelect.value && dateOfSale && serialNumber && vendorSelect.value && batteryTypeSelect.value;
+        document.getElementById('submitButton').disabled = !isValid;
     }
 </script>
+
+
+{{ product_data|json_script:"product-models" }}
+<script>
+    const models = JSON.parse(document.getElementById('product-models').textContent);
+
+    const batterySelect = document.getElementById('batteryTypeSelect');
+    const modelSelect = document.getElementById('modelSelect');
+
+    batterySelect.addEventListener('change', () => {
+        const selectedType = batterySelect.value;
+        modelSelect.innerHTML = '<option value="">Select Model</option>';
+        console.log(selectedType)
+        console.log(models)
+
+        models.forEach(product => {
+            if (product.type == selectedType && product.model) {
+                const option = document.createElement('option');
+                option.value = product.model;
+                option.textContent = product.model;
+                modelSelect.appendChild(option);
+            }
+        });
+    });
+</script>
+
+
+
 {% endblock %}

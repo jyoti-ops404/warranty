@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Products | TejasCorp{% endblock %}
+
+{% block content %}
+<section class="container" style="margin-top: 4rem; margin-bottom: 4rem;">
+    <h2 class="mt-5">{{ productType.name }}</h2>
+    <div class="row g-3 mt-4">
+        {% for data in productData %}
+        <div class="col-6 col-md-6 col-lg-4 col-xl-3 d-flex align-items-stretch">
+        <a class="product-card p-4" href="{% url 'product_detail' data.id %}" style="text-decoration: none; color: inherit;">
+            <div class="product-card-image">
+                <img src="/media/{{ data.productImage }}" alt="Product" />
+            </div>
+            <h6 class="mt-3">{{ data.productName }}</h6>
+            <div class="mt-3 d-flex flex-column-reverse flex-md-row justify-content-between">
+                <p class="fw-bold">Rs. {{ data.price }}</p>
+                <p class="fw-bold">{{ data.Volt }}V - {{ data.Ah }}Ah</p>
+            </div>
+        </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

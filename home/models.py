@@ -22,7 +22,7 @@ class ProductType(models.Model):
         return self.name
 
 class Product(models.Model):
-    productId = models.TextField()
+    model = models.TextField(blank=True)
     productName = models.TextField()
     productImage = models.ImageField(upload_to='product_images/')
     price = models.FloatField()
@@ -35,7 +35,7 @@ class Product(models.Model):
     featured = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.productId
+        return self.productName
 
 class Vendor(models.Model):
     name = models.CharField(max_length=255, unique=True)

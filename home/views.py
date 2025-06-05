@@ -57,10 +57,10 @@ def all_products(request):
         'grouped_products': grouped_products.items(),
     })
 
-def products(request, typeId):
+def category_products(request, typeId):
     product_type = get_object_or_404(ProductType, id=typeId)
     productData = Product.objects.filter(type=product_type)
-    return render(request, 'products.html', {
+    return render(request, 'category_products.html', {
         'productData': productData,
         'productType': product_type
     })
@@ -123,6 +123,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
 from .models import Vendor
 from .forms import WarrantyForm
 import os
@@ -133,52 +134,81 @@ def customer_warranty(request):
     if request.method == 'POST':
         form = WarrantyForm(request.POST)
         if form.is_valid():
-            warranty = form.save()  # Save the warranty form data to the database
-            
-            # Generate PDF and save to a consistent location
+            warranty = form.save()
+
             pdf_path = f"media/receipts/receipt_{warranty.id}.pdf"
             os.makedirs(os.path.dirname(pdf_path), exist_ok=True)
 
-            # Create the PDF
-            p = canvas.Canvas(pdf_path)
-            p.setFont("Helvetica-Bold", 16)
-            p.drawString(220, 750, "Warranty Receipt")
-            width, height = letter  # Set the page size (width and height)
+            c = canvas.Canvas(pdf_path, pagesize=letter)
+            width, height = letter
+            margin_x = 60
+            y = height - 60
 
-            # Add a logo
-            logo_path = "static/img/logo.png"  
-            try:
-                p.drawImage(logo_path, 50, height - 50, width=120, height=50)
-            except:
-                p.setFont("Helvetica-Bold", 10)
-                p.drawString(50, height - 70, "Logo Missing")
+            # Line 1: Logo (top-left)
+            logo_path = "static/img/logo.png"
+            if os.path.exists(logo_path):
+                c.drawImage(logo_path, margin_x, y - 10, width=100, height=40, preserveAspectRatio=True)
+            else:
+                c.setFont("Helvetica", 10)
+                c.drawString(margin_x, y, "Logo Missing")
 
-            # Draw a border around the page
-            p.setStrokeColorRGB(0, 0, 0)  # Set the color of the border (black in this case)
-            p.setLineWidth(2)  # Set the thickness of the border line
-            p.rect(50, 50, width - 100, height - 100)  # Draw the rectangle (x, y, width, height)
+            y -= 60  # space below logo
 
-            # Add form details to the PDF
-            p.setFont("Helvetica", 12)
-            p.drawString(120, 720, f"Vendor: {warranty.vendor}")
-            p.drawString(120, 700, f"Name: {warranty.full_name}")
-            p.drawString(120, 680, f"Email: {warranty.email or 'N/A'}")
-            p.drawString(120, 660, f"Phone: {warranty.phone}")
-            p.drawString(120, 640, f"Model: {warranty.model}")
-            p.drawString(120, 620, f"Date of Sale: {warranty.date_of_sale}")
-            p.drawString(120, 600, f"Serial Number: {warranty.serial_number}")
+            # --- Line 2: Title (centered) ---
+            c.setFont("Helvetica-Bold", 20)
+            c.drawCentredString(width / 2, y, "Warranty Receipt")
 
-            # Add a footer
-            p.drawString(120, 550, "Thank you for submitting your warranty.")
-            p.showPage()
-            p.save()
+            # --- Draw Border ---
+            c.setStrokeColor(colors.black)
+            c.setLineWidth(1.2)
+            c.rect(40, 40, width - 80, height - 100)
 
-            # Add a success message with the download link
+            y -= 40
+
+            # --- Section: Customer Information ---
+            c.setFont("Helvetica-Bold", 14)
+            c.drawString(margin_x, y, "Customer Information")
+            y -= 25
+            c.setFont("Helvetica", 12)
+            c.drawString(margin_x, y, f"Name: {warranty.full_name}")
+            y -= 20
+            c.drawString(margin_x, y, f"Phone: {warranty.phone}")
+            y -= 20
+            c.drawString(margin_x, y, f"Email: {warranty.email or 'N/A'}")
+
+            y -= 40
+
+            # --- Section: Product Information ---
+            c.setFont("Helvetica-Bold", 14)
+            c.drawString(margin_x, y, "Product Information")
+            y -= 25
+            c.setFont("Helvetica", 12)
+            c.drawString(margin_x, y, f"Vendor: {warranty.vendor}")
+            y -= 20
+            c.drawString(margin_x, y, f"Model: {warranty.model}")
+            y -= 20
+            c.drawString(margin_x, y, f"Serial Number: {warranty.serial_number}")
+            y -= 20
+            c.drawString(margin_x, y, f"Date of Sale: {warranty.date_of_sale.strftime('%B %d, %Y')}")
+
+            # --- Footer ---
+            y -= 40
+            c.setStrokeColor(colors.grey)
+            c.line(margin_x, y, width - margin_x, y)
+            y -= 20
+            c.setFont("Helvetica-Oblique", 11)
+            c.setFillColor(colors.darkgreen)
+            c.drawString(margin_x, y, "Thank you for submitting your warranty. Please keep this receipt for future reference.")
+
+            # Finalize
+            c.showPage()
+            c.save()
+
             messages.success(
                 request,
                 mark_safe(f"Form submitted successfully! <a href='/download_pdf/{warranty.id}/'>Download Receipt</a>")
             )
-            return redirect('customer_warranty')  # Redirect to display the success message
+            return redirect('customer_warranty')
 
         else:
             messages.error(request, "There was an error in your submission. Please check the form and try again.")
@@ -186,7 +216,15 @@ def customer_warranty(request):
         form = WarrantyForm()
 
     vendors = Vendor.objects.all()
-    return render(request, 'customer-warranty.html', {'form': form, 'vendors': vendors})
+    battery_types = ProductType.objects.all()
+    products = Product.objects.all().values('id', 'model', 'type')
+    product_data = list(products)
+    return render(request, 'customer-warranty.html', {
+        'form': form,
+        'vendors': vendors,
+        'battery_types': battery_types,
+        'product_data': product_data,
+    })
 
 
 
